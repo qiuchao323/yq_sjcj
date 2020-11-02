@@ -1,0 +1,84 @@
+* {
+	margin: 0;
+	padding: 0
+}
+
+a {
+	color: #333;
+}
+
+div,dl,dt,dd {
+	display: inline-block;
+}
+
+div,dl,dt,dd {
+	display: block
+}
+
+h2 {
+	font: 800 12px/ 20px "ËÎÌו";
+}
+
+#tabs {
+	border: 0px solid #ccc;
+	width: 100%;
+	padding: 4px 0
+}
+
+.tabDiv {
+	padding: 50px 0px 0px;
+	position: relative;
+}
+
+#tabs dt {
+	text-align: center;
+	font: 18px/ 50px "ËÎÌו";
+}
+
+#tabs dd {
+	font: 14px/ 20px "ËÎÌו";
+	padding: 10px;
+}
+
+#tab1 dt {
+	left: 0px;
+	top: 0px
+}
+
+#tab2 dt {
+	left: 66%;
+	top: 0px
+}
+
+#tab3 dt {
+	left: 33%;
+	top: 0px
+}
+
+
+.close dt {
+	height: 50px;
+	width: 33%;
+	background: #FAFAFA;
+	position: absolute;
+	border: 1px solid #ccc
+}
+
+.close dd {
+	display: none
+}
+
+.open dt {
+	height: 50px;
+	width: 33%;
+	background: #FFFFFF;
+	position: absolute;
+	border: 1px solid #ccc;
+	border-bottom: none;
+}
+
+.open dd {
+	background: #FFFFFF;
+	border: 1px solid #ccc;
+	height: 700px;
+}

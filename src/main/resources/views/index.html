@@ -1,0 +1,161 @@
+<!DOCTYPE html>  
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"  
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">  
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>数据采集平台</title>
+    <!--Bootstrap-->
+    <link th:href="@{Bootstrap/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <script th:src="@{Bootstrap/bootstrap/js/jquery.min.js}"></script>
+    <script th:src="@{Bootstrap/bootstrap/js/bootstrap.min.js}"></script>
+    <!--[if lt IE 9]>
+    <script src="/Scripts/html5shiv.js"></script>
+    <script src="/Scripts/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+   <div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="alert">
+				 <button type="button" class="close" data-dismiss="alert">×</button>
+				<h4>
+					提示!
+				</h4> <strong>提示!</strong> 请注意配置细节(采集完会自动停止 如需停止采集请点击取消按钮 停止时会等待当前线程采集完成后停止) <br>
+				<strong>网站采集规则配置文件路径：/spring-boot-selnium/src/main/resources/wz.json</strong>
+				<strong>采集的页面将会放到“D:\wzhtml”下</strong>
+			</div>
+			<div class="form-group">
+			    <label for="exampleInputName2">采集线程数：</label>
+			    <input type="text" class="form-control" id="num" placeholder="num" style="width: 15%;border-bottom-width: 1px;margin-bottom: 15px;">
+			    <button class="btn btn-warning btn-large" type="button" onclick="test()" id="test">测试</button>
+			    &nbsp;&nbsp;&nbsp;
+		 	 	<button class="btn btn-warning btn-large" type="button" onclick="strat()" id="btn">启动</button>
+		  	</div>
+		  	
+		</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+function strat(){
+	 var d = {};
+	 d.num = $("#num").val();
+	 $.ajax({
+        type: "POST",
+        url: "/strat",
+        data: JSON.stringify(d),
+        contentType: "application/json;charset=utf-8",
+        async: true,
+        success: function(data){
+                  if(data=='1'){
+                	  $("#btn").attr("onclick","stopts()");
+                	  $("#btn").html("程序已经启动（点击取消）");
+                		strartTask();
+                  }
+                 },  
+         error:function(e){
+        	 console.log(e);
+//              alert(e);
+         }
+    });
+
+}
+function stopts(){
+	 $.ajax({
+        type: "POST",
+        url: "/stopt",
+        dataType: "text",
+        async: true,
+        success: function(data){
+         if(data=='1'){
+        	 $("#btn").attr("onclick","strat()");
+       	 	 $("#btn").html("程序已经关闭（点击启动）");
+        	  }
+        	 },  
+         error:function(e){
+        	 console.log(e);
+//              alert(e);
+         }
+    });
+
+}
+
+//测试方法
+
+function test(){
+	 var d = {};
+	 d.num = $("#num").val();
+	 $.ajax({
+       type: "POST",
+       url: "/test",
+       data: JSON.stringify(d),
+       contentType: "application/json;charset=utf-8",
+       async: true,
+        success: function(data){
+         if(data=='1'){
+//         	 $("#btn").attr("onclick","strat()");
+//        	 	 $("#btn").html("程序已经关闭（点击启动）");
+        	  }
+        	 },  
+         error:function(e){
+        	 console.log(e);
+//              alert(e);
+         }
+    });
+
+}
+
+//页面加载函数
+
+$(function(){ 
+	 $.ajax({
+	        type: "POST",
+	        url: "/queryStatus",
+	        dataType: "json",
+	        async: true,
+	        success: function(data){
+	        	if(eval(data)[0].stuts=="1"){
+	        		 $("#btn").attr("onclick","stopts()");
+               	  	 $("#btn").html("程序已经启动（点击取消）");
+               	  	 $("#num").val(eval(data)[0].thnums);
+	        	}else{
+	        		 $("#btn").attr("onclick","strat()");
+	           	 	 $("#btn").html("程序已经关闭（点击启动）");
+	           	     $("#num").val(eval(data)[0].thnums);
+	        	}
+	        	
+	                 },  
+	         error:function(e){
+	        	 console.log(e);
+// 	             alert(e);
+	         }
+	    });
+});
+
+
+
+function strartTask(){
+	 var d = {};
+	 d.num = $("#num").val();
+	 $.ajax({
+       type: "POST",
+       url: "/strartTask",
+       data: JSON.stringify(d),
+       contentType: "application/json;charset=utf-8",
+       async: true,
+       success: function(data){
+                },  
+        error:function(e){
+       	 console.log(e);
+//             alert(e);
+        }
+   });
+
+}
+</script>
+</html>
+
